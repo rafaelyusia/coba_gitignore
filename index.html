@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kasir Sederhana</title>
+</head>
+<body>
+    <h2>Sistem Kasir Sederhana</h2>
+    <div>
+        <label for="itemName">Nama Item</label>
+        <input type="text" id="itemName" placeholder="Masukkan nama item">
+    </div>
+    <div>
+        <label for="itemPrice">Harga Item</label>
+        <input type="number" id="itemPrice" placeholder="Masukkan harga item">
+    </div>
+    <button onclick="addItem()">Tambah Item</button>
+
+    <div id="receipt">
+        <h3>Rincian Transaksi</h3>
+        <div id="itemsList"></div>
+        <p><strong>Total: </strong><span id="totalPrice">0</span></p>
+    </div>
+
+    <script>
+        let items = [];
+
+        function addItem() {
+            const itemName = document.getElementById('itemName').value;
+            const itemPrice = parseFloat(document.getElementById('itemPrice').value);
+
+            if (itemName && !isNaN(itemPrice)) {
+                items.push({ name: itemName, price: itemPrice });
+                updateReceipt();
+
+                // Clear input fields
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemPrice').value = '';
+            } else {
+                alert('Mohon isi nama item dan harga dengan benar!');
+            }
+        }
+
+        function updateReceipt() {
+            const itemsList = document.getElementById('itemsList');
+            const totalPrice = document.getElementById('totalPrice');
+
+            // Clear previous items
+            itemsList.innerHTML = '';
+
+            let total = 0;
+            items.forEach(item => {
+                const itemRow = document.createElement('p');
+                itemRow.textContent = `${item.name} - Rp${item.price.toFixed(2)}`;
+                itemsList.appendChild(itemRow);
+
+                total += item.price;
+            });
+
+            totalPrice.textContent = `Rp${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
